@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image, ImageFilter
 
-input_filename = "slice.tif"
+input_filename = "slice.jpg"
 output_filename = "output.tif"
 Image.MAX_IMAGE_PIXELS = None
 
