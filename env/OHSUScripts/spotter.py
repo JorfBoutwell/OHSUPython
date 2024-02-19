@@ -1,8 +1,8 @@
 import numpy as np
 from PIL import Image, ImageFilter
 
-input_filename = "slice.jpg"
-output_filename = "output.tif"
+input_filename = "input.jpg"
+output_filename = "output.jpg"
 Image.MAX_IMAGE_PIXELS = None
 
 def erode(cycles, image):
