@@ -10,7 +10,6 @@ def erode(cycles, image):
           image = image.filter(ImageFilter.MinFilter(3))
      return image
 
-
 def dilate(cycles, image):
      for _ in range(cycles):
           image = image.filter(ImageFilter.MaxFilter(3))
@@ -26,9 +25,9 @@ def calculate_mean_value(pixel, neighborhood_pixels):
     average = sum(neighborhood_pixels) / len(neighborhood_pixels)
     return average
 
-def apply_contrast_filter(input_image_path, output_image_path, threshold=50, scale_factor=0.5):
+def apply_contrast_filter(input_image, output_image_path, threshold=50, scale_factor=0.5):
     # Open the input image
-    input_image = Image.open(input_image_path).convert('L')  # Convert to grayscale
+    input_image = input_image.convert('L')  # Convert to grayscale
     
     # Scale down the input image
     scaled_width = int(input_image.width * scale_factor)
@@ -53,16 +52,16 @@ def apply_contrast_filter(input_image_path, output_image_path, threshold=50, sca
                         neighborhood_pixels.append(input_image.getpixel((nx, ny)))
             
             # Calculate the contrast of the current pixel
-            pixel_contrast = calculate_contrast(pixel, neighborhood_pixels)
+            #pixel_contrast = calculate_contrast(pixel, neighborhood_pixels)
             pixel_mean_value = calculate_mean_value(pixel, neighborhood_pixels)
             
             # If the contrast is above the threshold, set the corresponding pixel in the output image to black
-            if pixel_contrast > threshold or pixel_mean_value < 200:
+            if 46 < pixel_mean_value < 50 :
                 output_image.putpixel((x, y), 0)
     
-    output_image = erode(2,output_image)
-    output_image = dilate(5, output_image)
-    output_image = erode(3, output_image)
+    #output_image = erode(2,output_image)
+    #output_image = dilate(1, output_image)
+    #output_image = erode(3, output_image)
 
     output_image.filter(ImageFilter.GaussianBlur(20))
     # Save the output image
@@ -70,6 +69,16 @@ def apply_contrast_filter(input_image_path, output_image_path, threshold=50, sca
     output_image.show()
 
 # Example usage
-print("penis")
-apply_contrast_filter(input_filename, output_filename, threshold=20, scale_factor=0.25)
-print("balls")
+print("open")
+with Image.open(input_filename) as img:
+    img.load()
+
+    img = img.filter(ImageFilter.FIND_EDGES)
+    img = img.filter(ImageFilter.GaussianBlur(10))
+    #img = img.filter(ImageFilter.EDGE_ENHANCE)
+    #1160 860
+    print(img.getpixel((1160, 860)))
+    apply_contrast_filter(img, output_filename, threshold=20, scale_factor=0.05)
+    
+
+print("close")
